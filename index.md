@@ -4,12 +4,14 @@ layout: home
 
 hero:
   name: "个人博客"
-  text: "A VitePress Site"
+  text:
   tagline: "当黑夜遮蔽了你的路时，它又成为了照耀在你头顶的忠实的星光"
+  image:
+    src: /images01.png
   actions:
     - theme: brand
       text: 博客首页
-      link: /
+      link: /pages/blog/blog.md
     - theme: alt
       text: 组件库
       link: /api-examples
