@@ -7,6 +7,7 @@ import "./style.css";
 import { createPinia } from "pinia";
 
 import ArticleCard from "./components/article/ArticleCard.vue";
+import ArticleList from "./components/article/ArticleList.vue";
 
 export default {
   extends: DefaultTheme,
@@ -23,5 +24,6 @@ export default {
 
     // 注册全局组件
     app.component("ArticleCard", ArticleCard);
+    app.component("ArticleList", ArticleList);
   },
 } satisfies Theme;

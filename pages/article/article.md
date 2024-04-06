@@ -1,3 +1,5 @@
-# article
+---
+layout: page
+---
 
-<ArticleCard />
+<ArticleList />

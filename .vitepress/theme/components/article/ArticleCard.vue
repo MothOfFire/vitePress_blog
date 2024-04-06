@@ -1,44 +1,29 @@
 <script setup lang="ts" name="ArticleCard">
-import { reactive } from "vue";
-
-const article = reactive({
-  // 封面图片
-  cover: "",
-  // 文章标题
-  title: "vitePress 项目",
-  // 文章标签
-  tags: "vitePress",
-  // 文章描述
-  desc: "22222",
-  // 文章发布时间
-  publishTime: "2020/2/2",
-  // 文章作者
-  author: "vv",
-});
+defineProps(["articleCard"]);
 </script>
 
 <template>
   <div class="card">
     <!-- 封面图片区 -->
-    <img class="card_image" src="/public/cover/cover_01.jpg" />
+    <img class="card_image" :src="articleCard.cover" />
     <!-- 文章简介区 -->
     <div class="article">
       <!-- 文章的标题 -->
       <div class="header">
-        <div class="tags">#{{ article.tags }}</div>
+        <div class="tags">#{{ articleCard.tag }}</div>
         <div class="title">
-          <h3>{{ article.title }}</h3>
+          <h3>{{ articleCard.title }}</h3>
         </div>
       </div>
       <!-- 文章的摘要 -->
       <div class="content">
-        <p>{{ article.desc }}</p>
+        <p>{{ articleCard.desc }}</p>
       </div>
       <!-- 文章的作者 -->
       <div class="author">
         <img class="author_img" src="/public/logo.svg" />
-        <span class="name">{{ article.author }}</span>
-        <span class="time">{{ article.publishTime }}</span>
+        <span class="name">{{ articleCard.author }}</span>
+        <span class="time">{{ articleCard.publishTime }}</span>
       </div>
     </div>
   </div>
@@ -50,6 +35,7 @@ const article = reactive({
   opacity: 0.8;
   border: 1px solid #ccc;
   border-radius: 10px;
+  box-shadow: 2px 5px 5px #888888;
   display: flex;
   justify-content: flex-start;
 

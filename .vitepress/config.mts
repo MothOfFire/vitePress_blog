@@ -15,9 +15,24 @@ export default defineConfig({
     // 导航栏
     nav: [
       { text: "首页", link: "/" },
-      { text: "文章", link: "/pages/article/article.md" },
-      { text: "说说", link: "/" },
-      { text: "留言", link: "/" },
+      {
+        text: "前端基础",
+        items: [
+          { text: "JavaScript", link: "/" },
+          { text: "Typescript", link: "/" },
+          { text: "HTML", link: "/" },
+          { text: "CSS", link: "/" },
+        ],
+      },
+      {
+        text: "Vue",
+        items: [
+          { text: "Vue2", link: "/" },
+          { text: "Vue3", link: "/" },
+        ],
+      },
+      { text: "React", link: "/" },
+      { text: "Node", link: "/" },
       { text: "关于", link: "/" },
       { text: "友链", link: "/" },
       { text: "相册", link: "/" },
@@ -34,4 +49,6 @@ export default defineConfig({
       copyright: "Copyright © 2023-present MothOfFire",
     },
   },
+  vite: {},
+  vue: {},
 });
