@@ -16,30 +16,74 @@ export default defineConfig({
     nav: [
       { text: "首页", link: "/" },
       {
-        text: "前端基础",
+        text: "CSS&HTML",
         items: [
-          { text: "JavaScript", link: "/" },
-          { text: "Typescript", link: "/" },
-          { text: "HTML", link: "/" },
-          { text: "CSS", link: "/" },
+          { text: "HTML", link: "/pages/html/html.md" },
+          { text: "CSS", link: "/pages/css/css.md" },
         ],
       },
       {
         text: "Vue",
         items: [
-          { text: "Vue2", link: "/" },
-          { text: "Vue3", link: "/" },
+          { text: "Vue2", link: "/pages/vue/vue2.md" },
+          { text: "Vue3", link: "/pages/vue/vue3.md" },
         ],
       },
-      { text: "React", link: "/" },
-      { text: "Node", link: "/" },
-      { text: "关于", link: "/" },
-      { text: "友链", link: "/" },
-      { text: "相册", link: "/" },
+      { text: "React", link: "/pages/react/react.md" },
+      {
+        text: "JavaScript",
+        items: [
+          { text: "JavaScript", link: "/pages/javascript/javascript.md" },
+          { text: "TypeScript", link: "/pages/typescript/typescript.md" },
+          { text: "nodeJS", link: "/pages/javascript/node.md" },
+          { text: "nestJS", link: "/pages/javascript/nest.md" },
+        ],
+      },
+      {
+        text: "DataBase",
+        items: [
+          { text: "MongoDB", link: "/pages/database/mongo.md" },
+          { text: "MySQL", link: "/pages/database/mysql.md" },
+        ],
+      },
+      { text: "关于", link: "/pages/about/about.md" },
+      { text: "友链", link: "/pages/friend/friend.md" },
+      { text: "相册", link: "/pages/photo/photo.md" },
     ],
 
     // 侧边栏
-    sidebar: [],
+    sidebar: [
+      {
+        text: "CSS&HTML",
+        items: [
+          { text: "HTML", link: "/pages/html/html.md" },
+          { text: "CSS", link: "/pages/css/css.md" },
+        ],
+      },
+      {
+        text: "Vue",
+        items: [
+          { text: "Vue2", link: "/pages/vue/vue2.md" },
+          { text: "Vue3", link: "/pages/vue/vue3.md" },
+        ],
+      },
+      {
+        text: "JavaScript",
+        items: [
+          { text: "JavaScript", link: "/pages/javascript/javascript.md" },
+          { text: "TypeScript", link: "/pages/typescript/typescript.md" },
+          { text: "nodeJS", link: "/pages/javascript/node.md" },
+          { text: "nestJS", link: "/pages/javascript/nest.md" },
+        ],
+      },
+      {
+        text: "DataBase",
+        items: [
+          { text: "MongoDB", link: "/pages/database/mongo.md" },
+          { text: "MySQL", link: "/pages/database/mysql.md" },
+        ],
+      },
+    ],
 
     // github链接
     socialLinks: [{ icon: "github", link: "https://github.com/MothOfFire" }],

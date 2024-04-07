@@ -1,9 +1,12 @@
 <script setup lang="ts" name="ArticleCard">
+function toPage() {
+  console.log("跳转文章详情页");
+}
 defineProps(["articleCard"]);
 </script>
 
 <template>
-  <div class="card">
+  <div class="card" v-on:click="toPage">
     <!-- 封面图片区 -->
     <img class="card_image" :src="articleCard.cover" />
     <!-- 文章简介区 -->
