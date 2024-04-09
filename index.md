@@ -14,7 +14,7 @@ hero:
       link: /pages/article/article.md
     - theme: alt
       text: 组件库
-      link: /api-examples
+      link: /pages/lib/component.md
 
 features:
   - title: 学习

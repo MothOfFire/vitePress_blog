@@ -1,4 +1,5 @@
 <script setup lang="ts" name="ArticleCard">
+// 文章卡片的点击事件
 function toPage() {
   console.log("跳转文章详情页");
 }
@@ -67,11 +68,11 @@ defineProps(["articleCard"]);
 
     .content {
       color: #fff;
-      margin-top: 10px;
       font-size: 14px;
     }
 
     .author {
+      margin-top: 20px;
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -93,5 +94,9 @@ defineProps(["articleCard"]);
       }
     }
   }
+}
+
+.card:hover {
+  opacity: 1;
 }
 </style>

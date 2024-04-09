@@ -52,38 +52,36 @@ export default defineConfig({
     ],
 
     // 侧边栏
-    sidebar: [
-      {
-        text: "CSS&HTML",
-        items: [
-          { text: "HTML", link: "/pages/html/html.md" },
-          { text: "CSS", link: "/pages/css/css.md" },
-        ],
-      },
-      {
-        text: "Vue",
-        items: [
-          { text: "Vue2", link: "/pages/vue/vue2.md" },
-          { text: "Vue3", link: "/pages/vue/vue3.md" },
-        ],
-      },
-      {
-        text: "JavaScript",
-        items: [
-          { text: "JavaScript", link: "/pages/javascript/javascript.md" },
-          { text: "TypeScript", link: "/pages/typescript/typescript.md" },
-          { text: "nodeJS", link: "/pages/javascript/node.md" },
-          { text: "nestJS", link: "/pages/javascript/nest.md" },
-        ],
-      },
-      {
-        text: "DataBase",
-        items: [
-          { text: "MongoDB", link: "/pages/database/mongo.md" },
-          { text: "MySQL", link: "/pages/database/mysql.md" },
-        ],
-      },
-    ],
+    sidebar: {
+      "/pages/css/": [
+        { text: "HTML", link: "/pages/html/html.md" },
+        { text: "CSS", link: "/pages/css/css.md" },
+      ],
+      "/pages/html/": [
+        { text: "HTML", link: "/pages/html/html.md" },
+        { text: "CSS", link: "/pages/css/css.md" },
+      ],
+      "/pages/vue/": [
+        { text: "Vue2", link: "/pages/vue/vue2.md" },
+        { text: "Vue3", link: "/pages/vue/vue3.md" },
+      ],
+      "/pages/javascript/": [
+        { text: "JavaScript", link: "/pages/javascript/javascript.md" },
+        { text: "TypeScript", link: "/pages/typescript/typescript.md" },
+        { text: "nodeJS", link: "/pages/javascript/node.md" },
+        { text: "nestJS", link: "/pages/javascript/nest.md" },
+      ],
+      "/pages/typescript/": [
+        { text: "JavaScript", link: "/pages/javascript/javascript.md" },
+        { text: "TypeScript", link: "/pages/typescript/typescript.md" },
+        { text: "nodeJS", link: "/pages/javascript/node.md" },
+        { text: "nestJS", link: "/pages/javascript/nest.md" },
+      ],
+      "/pages/database/": [
+        { text: "MongoDB", link: "/pages/database/mongo.md" },
+        { text: "MySQL", link: "/pages/database/mysql.md" },
+      ],
+    },
 
     // github链接
     socialLinks: [{ icon: "github", link: "https://github.com/MothOfFire" }],
