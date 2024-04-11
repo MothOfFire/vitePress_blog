@@ -27,15 +27,15 @@ title: Vue3
 #### vite 预设模板
 
 | JavaScript | TypeScript |
-| ---------- | :--------: |
-| vue        |   vue-ts   |
-| react      |  react-ts  |
-| vanilla    | vanilla-ts |
-| preact     | preact-ts  |
-| lit        |   lit-ts   |
-| svelte     | svelte-ts  |
-| solid      |  solid-ts  |
-| qwik       |  qwik-ts   |
+| :--------: | :--------: |
+|    vue     |   vue-ts   |
+|   react    |  react-ts  |
+|  vanilla   | vanilla-ts |
+|   preact   | preact-ts  |
+|    lit     |   lit-ts   |
+|   svelte   | svelte-ts  |
+|   solid    |  solid-ts  |
+|    qwik    |  qwik-ts   |
 
 ### 使用 vue-cli 创建
 
@@ -58,7 +58,6 @@ title: Vue3
     cd pojectName
     npm run dev
     # pnpm 启动
-    pnpm run dev
     cd pojectName
     pnpm run dev
 ```
@@ -113,16 +112,26 @@ app.mount("#app");
 ### 更新阶段
 
 更新前：`onBeforeUpdate(() => {/*更新前执行的逻辑*/})`
+
 更新后：`onUpdated(() => {/*更新后执行的逻辑*/})`
 
 ### 卸载阶段
 
 卸载前：`onBeforeUnmount(() => {/*卸载前执行的逻辑*/})`
+
 卸载完毕：`onUnmounted(() => {/*卸载完毕执行的逻辑*/})`
 
 ## 模板语法
 
 ### 文本插值
+
+最基本的数据绑定形式是文本插值，它使用的是“Mustache”语法 (即双大括号)
+
+```vue
+<span>{{变量名}}</span>
+```
+
+双大括号标签会被替换为相应组件实例中 该变量属性的值。当该变量是响应式数据声明的变量时，每次变量更改时它也会同步更新。
 
 ### Attribute（属性） 绑定
 
@@ -132,17 +141,17 @@ app.mount("#app");
 
 setup 函数是 Vue3 中一个新的配置项，值为一个函数。setup 函数会在 beforeCreate 钩子之前被调用，所以它无法访问到 data、computed 或 methods 上的属性。并且 setup 函数中的 this 不是 Vue 实例，而是 undefined，Vue3 中已经弱化了 this。
 
-1. setup 函数的返回值：
+1 setup 函数的返回值：
 
 - 返回一个对象，对象中的属性、方法，在模板中都可以直接使用。
 - 返回一个渲染函数，可以自定义渲染内容。
 
-2. setup 与 option API 的关系
+2 setup 与 option API 的关系
 
 - setup 与 data、methods 等选项可以共存，
 - option API 可以使用 setup 里的数据，但 setup 不能读取 optiob API 中的数据
 
-3. setup 语法糖
+3 setup 语法糖
 
 - 在模板中使用 `<script setup>` 标签，可以不需要在模板中使用 `setup()` 函数。
 - `<script setup>`中的顶层的导入、声明的变量和函数可在同一组件的模板中直接使用。你可以理解为模板是在同一作用域内声明的一个 JavaScript 函数——它自然可以访问与它一起声明的所有内容。
@@ -151,11 +160,127 @@ setup 函数是 Vue3 中一个新的配置项，值为一个函数。setup 函�
 
 ### 基本类型的响应式数据
 
+使用 ref 函数声明基本类型的响应式数据
+
+```js
+import { ref } from "vue";
+
+const count = ref(0);
+
+// 修改
+count.value++;
+// 读取
+console.log(count.value);
+```
+
+ref 函数接收一个参数作为初始值，返回一个响应式数据对象 RefImpl。该对象包含一个 value 属性，该属性与传入的参数值保持一致。
+
+ref 函数会自动将基本类型的值转换为对应的响应式数据对象。如果要读取或修改声明好的基本类型数据，需要使用 .value 属性。
+
 ### 对象类型的响应式数据
+
+可以使用 ref 函数和 reactive 函数来声明对象类型的响应式数据
+
+#### 使用 reactive 函数声明对象类型的响应式数据
+
+使用 reactive 函数声明对象类型的响应式数据
+
+```js
+import { reactive } from "vue";
+
+const state = reactive({
+  count: 0,
+});
+
+// 修改
+state.count++;
+// 读取
+console.log(state.count);
+```
+
+reactive 函数接收一个参数作为初始值，返回一个响应式数据对象 Proxy。
+
+reactive 函数会自动将对象类型的值转换为对应的响应式数据对象。如果要读取或修改声明好的对象类型的数据，直接使用该数据对象即可。
+
+当重新分配一个新的对象给声明好的变量时，会失去响应式特性。但可以使用 `Object.assign` 将整个对象重新赋值给响应式数据对象。
+
+```js
+import { reactive } from "vue";
+
+const state = reactive({
+  count: 0,
+});
+
+// 重新分配对象
+state = { name: "zs" }; // state 会失去响应式特性
+
+Object.assign(state, { name: "zs" }); // 整体替换对象，不会失去响应式特性
+```
+
+#### 使用 ref 函数声明对象类型的响应式数据
+
+使用 ref 函数声明对象类型的响应式数据
+
+```js
+import { ref } from "vue";
+
+const state = ref({
+  count: 0,
+});
+
+// 修改
+state.value.count++;
+// 读取
+console.log(state.value.count);
+```
+
+ref 函数接收一个参数作为初始值，返回一个响应式数据对象 RefImpl。该对象包含一个 value 属性，该属性是一个 Proxy 对象。说明了 ref 函数在包装对象类型数据时会在底层使用 reactive 函数。
+
+ref 函数会自动将对象类型的值转换为对应的响应式数据对象。如果要读取或修改声明好的对象类型的数据，需要使用 .value 属性。
+
+### ref 函数与 reactive 函数的区别
+
+- ref 函数用来声明基本类型数据或者对象类型的数据。
+- reactive 函数只能用来声明对象类型的数据。
+- ref 函数声明的变量必须使用 .value 属性来读取或修改其值。可以使用 volar 插件自动添加 .value。
+- reactive 函数声明的变量重新分配新对象时会失去响应式特性，但可以使用 `Object.assign` 进行整体替换，ref 函数声明的变量重新分配新对象时不会失去响应式特性。
+
+#### 使用原则
+
+- 若需要一个基本类型的响应式数据，必须使用 ref 函数进行声明。
+- 若需要一个对象类型的响应式数据，且层级不深，ref 函数与 reactive 函数都可以使用。
+- 若需要一个对象类型的响应式数据，且层级较深，推荐使用 reactive 函数进行声明。
+- 表单数据建议使用 reactive 函数进行声明。
+
+### 响应式数据的判断
+
+使用 isRef 函数判断一个值是否为响应式数据对象。
+
+使用 isReactive 函数判断一个对象是否为响应式数据对象。
+
+使用 isReadonly 函数判断一个对象是否为只读的响应式数据对象。
+
+使用 isProxy 函数判断一个对象是否为代理对象。
 
 ### 进阶
 
+### toRef 与 toRefs
+
+toRefs 与 toRef 函数都可以将响应式对象的属性拿出来并让其保持响应式特性，toRefs 函数用于一次批量解构出需要的属性；而 toRef 函数用于解构出一个需要的属性，若要批量解构需要多次执行才可以。
+
+#### toRefs
+
+toRefs 函数接收一个由 reactive 函数声明的响应式对象，该方法会将响应式对象中的每一个键值对的值转换为 ObjectRefImpl 对象。
+
+#### toRef
+
+toRef 函数可以接收两个参数，第一个参数是由 reactive 函数声明的响应式对象，第二个参数是响应式对象中的属性名，该方法会将响应式对象中指定的属性名的值转换为 ObjectRefImpl 对象。
+
 ## 计算属性与侦听器
+
+### 计算属性
+
+### 侦听器
 
 ## props
 
