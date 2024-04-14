@@ -137,6 +137,34 @@ app.mount("#app");
 
 ### 内置指令
 
+## 模板引用
+
+虽然 Vue 的声明性渲染模型为你抽象了大部分对 DOM 的直接操作，但在某些情况下，我们仍然需要直接访问底层 DOM 元素。要实现这一点，我们可以使用特殊的 ref attribute（属性）
+
+ref 是一个特殊的 attribute，它允许我们在一个特定的 DOM 元素或子组件实例被挂载后，获得对它的直接引用。当 ref 标记 HTML 标签时，创建的 ref 变量存储的是 DOM 元素；当 ref 标记组件时，创建的 ref 变量存储的是组件实例，但是组件实例无法看到组件内部定义的对象，这是 VUE 的保护机制，可以使用 `defineExpose` 方法将需要暴露的戴数据导出，该组件实例对象就可以引用相应的数据。
+
+### 模板引用
+
+在模板标签上使用 ref 标记后，需要声明一个匹配模板 ref attribute 值的 ref，且该变量的变量名必须与模板 ref attribute 上的值相同。
+
+```vue
+<script setup>
+import { ref, onMounted } from "vue";
+
+// 声明一个 ref 来存放该元素的引用
+// 必须和模板里的 ref 同名
+const input = ref(null);
+
+onMounted(() => {
+  input.value.focus();
+});
+</script>
+
+<template>
+  <input ref="input" />
+</template>
+```
+
 ## setup 函数
 
 setup 函数是 Vue3 中一个新的配置项，值为一个函数。setup 函数会在 beforeCreate 钩子之前被调用，所以它无法访问到 data、computed 或 methods 上的属性。并且 setup 函数中的 this 不是 Vue 实例，而是 undefined，Vue3 中已经弱化了 this。
@@ -403,7 +431,73 @@ watchEffect(() => {
 
 ## props
 
-## hooks
+父组件在子组件标签上添加一个 `:propsName="value"` 的属性，子组件在 props 选项中声明一个与父组件传入的属性名相同的属性，即可将父组件传入的属性值赋值给子组件的 props 选项中声明的属性。
+
+### 单向数据流
+
+父组件向子组件传递数据时，子组件不能修改父组件传递的数据，只能通过触发事件的方式通知父组件修改数据。
+
+### 接收 props
+
+#### 子组件直接接收
+
+```js
+import { defineProps } from "vue";
+
+let props = defineProps(["propsName"]);
+```
+
+#### 接收并限制类型
+
+```js
+import { defineProps } from 'vue';
+import { type propsType } from '@/types';
+
+let props = defineProps<{propsName: propsType}>()
+```
+
+#### 接收并限制类型与默认值
+
+```js
+import { defineProps, withDefaults } from 'vue';
+import { type propsType } from '@/types';
+
+withDefaults(defineProps<{propsName: propsType}>(), {
+  propsName: 'defaultValue'
+});
+```
+
+## 自定义 hooks
+
+hooks 的命名规范：useHookName.js/useHookName.ts
+
+```js
+export default function useHookName() {
+  // 功能数据声明
+  const 数据声明的变量名 = ref(初始值);
+  // 功能逻辑函数声明
+  const 功能逻辑函数名 = () => {
+    // 功能逻辑
+  };
+  // 返回数据和逻辑函数,向外部提供数据
+  return {
+    数据声明的变量名,
+    功能逻辑函数名,
+  };
+}
+```
+
+::: tip
+默认暴露可以不用写函数名，导出的方法就是文件名
+:::
+
+### 引入自定义 hooks
+
+```js
+import useHooksName from "@/hooks/useHooksName";
+
+let { 数据变量名, 功能逻辑函数名 } = useHooksName();
+```
 
 ## 路由 route
 
