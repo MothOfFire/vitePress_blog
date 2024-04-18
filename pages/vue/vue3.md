@@ -135,13 +135,30 @@ app.mount("#app");
 
 ### Attribute（属性） 绑定
 
+双大括号不能在 HTML 标签的 attributes 中使用。想要响应式地绑定一个 attribute，应该使用 v-bind 指令。
+
+指令语法 `v-bind:attributes 名 = "value"`，可以简写为 `:attributes 名 = "value"`，如果 value 的变量名与 attributes 名相同，则可以省略 value 的变量名，即 `:attributes 名`。
+
+如果绑定的值是 null 或者 undefined，那么该 attribute 将会从渲染的元素上移除。
+
+v-bind 指令是一个单向绑定的指令，只能将定义的数据变量绑定到 attribute 上，而不能将 attribute 绑定到数据变量上。所以修改 attribute 的操作都会导致数据变量发生改变，而修改数据变量的操作不会导致 attribute 发生改变。
+
+#### v-bind 与 v-model 的区别
+
+v-bind 指令是一个单向绑定的指令，只能将定义的数据变量绑定到 attribute 上，而不能将 attribute 绑定到数据变量上。
+
+v-model 指令是一个双向绑定的指令，既可以将定义的数据变量绑定到 attribute 上，还能将 attribute 绑定到数据变量上。
+
+v-bind 用于绑定 attribute，而 v-model 用于在 input、textarea、select 等表单控件元素上创建双向数据绑定。
+
 ### 内置指令
 
 ## 模板引用
 
 虽然 Vue 的声明性渲染模型为你抽象了大部分对 DOM 的直接操作，但在某些情况下，我们仍然需要直接访问底层 DOM 元素。要实现这一点，我们可以使用特殊的 ref attribute（属性）
 
-ref 是一个特殊的 attribute，它允许我们在一个特定的 DOM 元素或子组件实例被挂载后，获得对它的直接引用。当 ref 标记 HTML 标签时，创建的 ref 变量存储的是 DOM 元素；当 ref 标记组件时，创建的 ref 变量存储的是组件实例，但是组件实例无法看到组件内部定义的对象，这是 VUE 的保护机制，可以使用 `defineExpose` 方法将需要暴露的戴数据导出，该组件实例对象就可以引用相应的数据。
+ref 是一个特殊的 attribute，它允许我们在一个特定的 DOM 元素或子组件实例被挂载后，获得对它的直接引用。
+当 ref 标记 HTML 标签时，创建的 ref 变量存储的是 DOM 元素；当 ref 标记组件时，创建的 ref 变量存储的是组件实例，但是组件实例无法看到组件内部定义的对象，这是 VUE 的保护机制，可以使用 `defineExpose` 方法将需要暴露的戴数据导出，该组件实例对象就可以引用相应的数据。
 
 ### 模板引用
 
@@ -500,6 +517,241 @@ let { 数据变量名, 功能逻辑函数名 } = useHooksName();
 ```
 
 ## 路由 route
+
+### 安装 vue-router
+
+```bash
+npm install vue-router@4
+
+# or
+pnpm install vue-router@4
+
+```
+
+### 创建路由实例
+
+在项目的 src 目录下，创建一个 router 文件夹，并在该文件夹下创建一个 index.js/index.ts 文件。在该文件中，创建一个路由实例，并配置路由规则。
+
+```js
+import { createRouter, createWebHistory } from 'vue-router';
+
+// 创建路由器
+const router = createRouter({
+  // 路由工作模式
+  history: createWebHistory(),
+  // 路由规则
+  routes: [
+    {
+      name: '路由名'，
+      path: '/路由路径',
+      component: '路由组件名',
+      // 子路由，当有子路由的时候添加这个配置项
+      children: [
+        {
+          name: '子路由名'，
+          path: '子路由路径，不用加 /',
+          component: '子路由组件名',
+        }
+      ]
+    }
+  ]
+});
+
+// 暴露路由器
+export default router;
+
+```
+
+### 路由导航
+
+存放路由组件的文件一般与项目组件分开，项目组件存放于 src/components 文件夹下，而路由组件存放在 src/views 或 src/pages 文件夹下。
+
+```vue
+<template>
+  <RouterLink
+    :to="{ path: '路由路径', name: '路由名' }"
+    artive-class="被激活的类名"
+    >路由导航名称</RouterLink
+  >
+  <RouterViews></RouterViews>
+</template>
+
+<script setup>
+import { RouterLink, RouterView } from "vue-router";
+</script>
+```
+
+### 路由工作模式
+
+history 模式
+
+优点：URL 更加美观，不带有#，更接近传统的网站 URL
+
+缺点：后期项目上线需要服务端配合处理路径问题，否则刷新会有 404 错误
+
+```js
+import { createRouter, createWebHashHistory} from 'vue-router';
+
+const router = createRouter({
+  history: createWebHashHistory(),
+}
+
+```
+
+hash 模式
+
+优点：兼容性更好，不需要服务端配合处理路径问题
+
+缺点：URL 带有#，不美观，且在 SEO 优化方面相对较差
+
+```js
+import { createRouter, createWebHashHistory } from 'vue-router';
+
+const router = createRouter({
+  history: createWebHashHistory(),
+}
+```
+
+### 路由参数
+
+#### query 参数
+
+第一种写法：字符串写法
+
+```js
+// 传参
+:to = "`/routePath?queryName=${value}&queryName2=${value}`"
+
+// 接收参数
+import { toRefs } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+let { query } = toRefs(route)
+```
+
+第二种写法：对象写法
+
+```js
+// 传参
+:to = "{
+  path: '/路由路径名',
+  query: {
+    queryName: value,
+    queryName2: value,
+    ...
+  }
+}"
+
+// 接收参数
+import { toRefs } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+let { query } = toRefs(route)
+```
+
+#### params 参数
+
+第一种写法：字符串写法
+
+```js
+// 传参
+:to = "`/routePath/${ParamsValue1}/${ParamsValue2}`"
+// 并且在路由规则配置中的 path 配置项添加占位符
+path: '/routePath/:ParamsName1/:ParamsName2'
+// 若在变量名后加上 ? 表示可传可不传
+
+// 接收参数
+import { toRefs } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+let { params } = toRefs(route)
+```
+
+第二种写法：对象写法
+
+```js
+// 传参
+:to = "{
+  name: '路由路径名',
+  params: {
+    paramName: value,
+    paramName2: value,
+    ...
+    // value 不能是数组
+  }
+}"
+
+// 接收参数
+import { toRefs } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+let { params } = toRefs(route)
+```
+
+### 路由规则的 props 配置
+
+配置项写法
+
+```js
+import { createRouter, createWebHistory } from 'vue-router';
+
+// 创建路由器
+const router = createRouter({
+  // 路由工作模式
+  history: createWebHistory(),
+  // 路由规则
+  routes: [
+    {
+      name: '路由名'，
+      // 加上 ? 表示可传可不传
+      path: '/路由路径/:占位变量名/:占位变量名2?',
+      component: '路由组件名',
+      props: true
+    }
+  ]
+});
+
+// 暴露路由器
+export default router;
+
+//接收 props 参数
+
+defineProps([
+  '占位变量名', '占位变量名2'
+])
+```
+
+::: tip
+将路由收到的所有 prams 参数作为 props 传递给路由组件
+:::
+
+函数写法
+
+```js
+props(router) {
+  return{
+    route.query
+    //or
+    router.params
+  }
+}
+```
+
+:::tip
+函数写法可以自己决定将什么作为 props 传递给路由组件
+:::
+
+对象写法
+
+```js
+props: {
+  变量名: "值";
+}
+```
 
 ## 状态管理 pinia
 
