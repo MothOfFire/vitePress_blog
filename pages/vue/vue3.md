@@ -755,6 +755,186 @@ props: {
 
 ## 状态管理 pinia
 
+### 安装
+
+```bash
+npm install pinia
+
+# or
+pnpm install pinia
+
+```
+
+### 引入
+
+在 main.js/main.ts 中引入
+
+```js
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+
+// 创建 app 应用
+const app = createApp(App);
+
+// 创建 pinia 实例
+const pinia = createPinia();
+
+// 将 pinia 实例挂载到 app 上
+app.use(pinia);
+
+// 挂载到 vue 实例上
+app.mount("#app");
+```
+
+### 存储数据
+
+创建一个 src/store 文件夹，创建一个 modules 文件夹在该文件夹中分别存放每个功能的持久化数据
+
+```js
+import { defineStore } from "pinia";
+
+export const useXxStore = defineStore("文件名", {
+  state() {
+    // 真正存储数据的地方
+    return {
+      数据名: 数据值,
+    };
+  },
+  actions: {
+    // 修改数据的方法
+  },
+});
+```
+
+### 读取数据
+
+```js
+import { useXxStore } from "./store/modules/xxStore";
+import { storeToRefs } from "pinia";
+
+const xxStore = useXxStore();
+
+// 直接读取
+xxStore.数据名;
+xxStore.$state.数据名;
+
+// 解构读取
+const { 数据名 } = storeToRefs(xxStore);
+```
+
+### 修改数据
+
+直接修改
+
+```js
+xxStore.数据名 = 修改后的数据值;
+```
+
+批量修改，适用于很多数据一起修改的情况
+
+```js
+xxStore.$patch({
+  数据名: 修改后的数据值,
+  数据名2: 修改后的数据值2,
+  ...
+});
+```
+
+action 修改，适用于异步操作，该操作多个组件都会用到该修改方法的时候使用
+
+在 src/store/modules/xxStore.js 中
+
+```js
+import { defineStore } from "pinia";
+
+export const useXxStore = defineStore("文件名", {
+  state() {
+    // 真正存储数据的地方
+    return {
+      数据名: 数据值,
+    };
+  },
+  actions: {
+    // 放置的是一个一个的修改数据的方法，用于响应式组件中的动作
+    functionName(value) {
+      // 修改方法的逻辑
+      this.数据名 = value;
+    },
+  },
+});
+```
+
+### getters
+
+getters 相当于 Vue 的计算属性
+
+```js
+import { defineStore } from "pinia";
+
+export const useXxStore = defineStore("文件名", {
+  state() {
+    // 真正存储数据的地方
+    return {
+      数据名: 数据值,
+    };
+  },
+  actions: {
+    // 放置的是一个一个的修改数据的方法，用于响应式组件中的动作
+    functionName(value) {
+      // 修改方法的逻辑
+      this.数据名 = value;
+    },
+  },
+  getters: {
+    getterName(state) {
+      // 返回一个值，这个值会根据 state 中的数据实时计算
+      return state.数据名 * 10;
+    },
+    // 可以简写成 `getterName: state => state.数据名 * 10`
+    getterName(): 数据类型 {
+      //不借用 state 形参的写法，: 数据类型 ts 的时候需要写
+      // 返回一个值，这个值会根据 state 中的数据实时计算
+      return this.数据名 * 10;
+    },
+  },
+});
+```
+
+### $subscribe 订阅
+
+$subscribe 相当于 Vue 中的 watch，侦听数据的修改
+
+```js
+xxStore.$subscribe((mutation, state) => {
+  // mutation：本次修改的信息
+  // state：修改后 store 中的所有数据
+  // 侦听方法的逻辑
+});
+```
+
+### store 的组合式写法
+
+```js
+import { reactive } from "vue";
+import { defineStore } from "pinia";
+
+export const useXxStore = defineStore('文件名', () => {
+  // 选项式的 state, 数据用 reactive 定义
+  const 数据名 = reactive(
+    JSON.parse(localStorage.getItem('数据名') as string) || []
+  );
+  // 选项式的 actions,
+  function functionName(value) {
+    // 修改方法的逻辑
+  }
+  // 导出数据和方法
+  return {
+    数据名, functionName
+  }
+})
+
+```
+
 ## 组件
 
 ### 组件注册
