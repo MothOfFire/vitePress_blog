@@ -10,8 +10,8 @@ hero:
     src: /images01.png
   actions:
     - theme: brand
-      text: 文章列表
-      link: /pages/article/article.md
+      text: 题库
+      link: /pages/question/bank.md
     - theme: alt
       text: 组件库
       link: /pages/lib/component.md

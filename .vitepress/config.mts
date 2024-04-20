@@ -81,6 +81,10 @@ export default defineConfig({
         { text: "MongoDB", link: "/pages/database/mongo.md" },
         { text: "MySQL", link: "/pages/database/mysql.md" },
       ],
+      "/pages/question/": [
+        { text: "Vue 面试题", link: "/pages/question/vue_question.md" },
+        { text: "JavaScript 面试题", link: "/pages/question/js_question.md" },
+      ],
     },
 
     // github链接
