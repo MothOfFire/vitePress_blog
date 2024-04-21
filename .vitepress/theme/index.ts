@@ -6,6 +6,9 @@ import "./style.css";
 
 import { createPinia } from "pinia";
 
+// 引入组件
+import MyInput from "../../example/component-lib/MyInput.vue";
+
 export default {
   extends: DefaultTheme,
   Layout: () => {
@@ -21,5 +24,6 @@ export default {
 
     // 注册全局组件
     // app.component("组件名", 引入的组件);
+    app.component("MyInput", MyInput);
   },
 } satisfies Theme;
