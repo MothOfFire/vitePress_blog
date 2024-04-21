@@ -82,8 +82,8 @@ export default defineConfig({
         { text: "MySQL", link: "/pages/database/mysql.md" },
       ],
       "/pages/question/": [
-        { text: "Vue 面试题", link: "/pages/question/vue_question.md" },
-        { text: "JavaScript 面试题", link: "/pages/question/js_question.md" },
+        { text: "Vue 题库", link: "/pages/question/vue_question.md" },
+        { text: "JavaScript 题库", link: "/pages/question/js_question.md" },
       ],
     },
 
