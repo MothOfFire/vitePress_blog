@@ -46,6 +46,7 @@ export default defineConfig({
           { text: "MySQL", link: "/pages/database/mysql.md" },
         ],
       },
+      { text: "git", link: "/pages/git/git.md" },
       { text: "关于", link: "/pages/about/about.md" },
       { text: "友链", link: "/pages/friend/friend.md" },
       { text: "相册", link: "/pages/photo/photo.md" },
