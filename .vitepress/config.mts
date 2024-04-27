@@ -27,6 +27,7 @@ export default defineConfig({
         items: [
           { text: "Vue2", link: "/pages/vue/vue2.md" },
           { text: "Vue3", link: "/pages/vue/vue3.md" },
+          { text: "NuxtJS", link: "/pages/vue/nuxtjs.md" },
         ],
       },
       { text: "React", link: "/pages/react/react.md" },
@@ -65,6 +66,7 @@ export default defineConfig({
       "/pages/vue/": [
         { text: "Vue2", link: "/pages/vue/vue2.md" },
         { text: "Vue3", link: "/pages/vue/vue3.md" },
+        { text: "NuxtJS", link: "/pages/vue/nuxtjs.md" },
       ],
       "/pages/javascript/": [
         { text: "JavaScript", link: "/pages/javascript/javascript.md" },

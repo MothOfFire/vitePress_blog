@@ -168,3 +168,23 @@ pojectName/ # 项目根目录
 在 pages 目录下创建一个父路由组件并写好路由出口，再创建一个与父路由组件同名的文件夹，该文件夹下创建的路由组件都是父路由组件的子路由组件，其路由就是'/父路由组件名/子路由组件名'。
 
 ## 路由导航
+
+使用 Nuxt 自带的 `NuxtLink` 组件实现路由导航。
+
+```vue
+<template>
+  <div>
+    <!-- 路由导航 -->
+    <nav>
+      <NuxtLink to="/">Home</NuxtLink>
+      <NuxtLink to="/about">About</NuxtLink>
+      <NuxtLink to="/user">用户默认页</NuxtLink>
+      <NuxtLink to="/user/create">添加用户页</NuxtLink>
+    </nav>
+    <!-- 路由出口 -->
+    <nuxt-page />
+  </div>
+</template>
+```
+
+nuxt 会将 NuxtLink 组件解析为一个 a 标签，并添加一个 `href` 属性。但与原始的 a 标签不同，原始 a 标签跳转时会刷新页面，而 NuxtLink 组件跳转时不会刷新页面。
